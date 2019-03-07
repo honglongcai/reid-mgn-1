@@ -88,11 +88,11 @@ class AttentionLayer(nn.Module):
         self.se = SELayer(channel=c, reduction=r, multiply=False)
         self.stn = STNLayer(channel_in=c, multiply=False)
         self.activation = nn.Hardtanh(inplace=True)
-        self.activation = nn.ReLU(True)
+        #self.activation = nn.ReLU(True)
 
 
     def forward(self, x):
         y = self.se(x)
         z = self.stn(x)
-        a = self.activation(y+z) # Final joint attention map
+        a = self.activation(y * z) # Final joint attention map
         return x + x*a
